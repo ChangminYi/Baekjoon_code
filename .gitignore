@@ -1,5 +1,18 @@
-#???
-**/*.xml
+#for IntelliJ
+**/.idea/
+**/.out
+
+#for PyCharm
+**/venv/
+
+#for Visual Studio 17
+**/.vs/
+**/Debug/
+**/*.vcxproj
+**/*.user
+**/*.sln
+**/.settings/
+**/bin
 
 #for C++
 # Prerequisites
