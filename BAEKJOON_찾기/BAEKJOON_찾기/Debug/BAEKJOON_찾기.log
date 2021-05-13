@@ -1,4 +1,0 @@
-﻿  소스.cpp
-d:\project\visual studio 2017\baekjoon_찾기\baekjoon_찾기\소스.cpp(10): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-d:\project\visual studio 2017\baekjoon_찾기\baekjoon_찾기\소스.cpp(26): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-  BAEKJOON_찾기.vcxproj -> D:\Project\Visual Studio 2017\BAEKJOON_찾기\Debug\BAEKJOON_찾기.exe

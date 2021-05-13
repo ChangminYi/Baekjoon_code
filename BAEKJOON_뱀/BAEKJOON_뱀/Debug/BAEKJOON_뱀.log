@@ -1,4 +1,0 @@
-﻿  소스.cpp
-d:\project\visual studio 2017\baekjoon_뱀\baekjoon_뱀\소스.cpp(22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-d:\project\visual studio 2017\baekjoon_뱀\baekjoon_뱀\소스.cpp(76): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
-  BAEKJOON_뱀.vcxproj -> D:\Project\Visual Studio 2017\BAEKJOON_뱀\Debug\BAEKJOON_뱀.exe
