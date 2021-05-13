@@ -1,0 +1,8 @@
+﻿  소스.cpp
+d:\project\visual studio 2017\baekjoon_옥토끼나라\baekjoon_옥토끼나라\소스.cpp(27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+d:\project\visual studio 2017\baekjoon_옥토끼나라\baekjoon_옥토끼나라\소스.cpp(32): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+d:\project\visual studio 2017\baekjoon_옥토끼나라\baekjoon_옥토끼나라\소스.cpp(44): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+d:\project\visual studio 2017\baekjoon_옥토끼나라\baekjoon_옥토끼나라\소스.cpp(48): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+d:\project\visual studio 2017\baekjoon_옥토끼나라\baekjoon_옥토끼나라\소스.cpp(77): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+d:\project\visual studio 2017\baekjoon_옥토끼나라\baekjoon_옥토끼나라\소스.cpp(85): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  BAEKJOON_옥토끼나라.vcxproj -> D:\Project\Visual Studio 2017\BAEKJOON_옥토끼나라\Debug\BAEKJOON_옥토끼나라.exe

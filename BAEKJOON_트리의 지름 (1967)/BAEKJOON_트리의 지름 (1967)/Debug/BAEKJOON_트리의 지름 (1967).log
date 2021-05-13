@@ -1,0 +1,4 @@
+﻿  소스.cpp
+d:\project\visual studio 2017\baekjoon_트리의 지름 (1967)\baekjoon_트리의 지름 (1967)\소스.cpp(11): warning C4005: 'INT_MAX': 매크로 재정의
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\limits.h(35): note: 'INT_MAX'의 이전 정의를 참조하십시오.
+  BAEKJOON_트리의 지름 (1967).vcxproj -> D:\Project\Visual Studio 2017\BAEKJOON_트리의 지름 (1967)\Debug\BAEKJOON_트리의 지름 (1967).exe

@@ -1,0 +1,3 @@
+﻿  소스.cpp
+d:\project\visual studio 2017\baekjoon_괄호\baekjoon_괄호\소스.cpp(19): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  BAEKJOON_괄호.vcxproj -> D:\Project\Visual Studio 2017\BAEKJOON_괄호\Debug\BAEKJOON_괄호.exe

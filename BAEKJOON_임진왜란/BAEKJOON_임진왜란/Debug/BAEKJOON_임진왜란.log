@@ -1,0 +1,6 @@
+﻿  소스.cpp
+d:\project\visual studio 2017\baekjoon_임진왜란\baekjoon_임진왜란\소스.cpp(10): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+d:\project\visual studio 2017\baekjoon_임진왜란\baekjoon_임진왜란\소스.cpp(11): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+d:\project\visual studio 2017\baekjoon_임진왜란\baekjoon_임진왜란\소스.cpp(23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+d:\project\visual studio 2017\baekjoon_임진왜란\baekjoon_임진왜란\소스.cpp(24): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  BAEKJOON_임진왜란.vcxproj -> D:\Project\Visual Studio 2017\BAEKJOON_임진왜란\Debug\BAEKJOON_임진왜란.exe

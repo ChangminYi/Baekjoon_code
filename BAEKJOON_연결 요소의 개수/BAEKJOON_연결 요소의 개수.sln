@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1340
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BAEKJOON_연결 요소의 개수", "BAEKJOON_연결 요소의 개수\BAEKJOON_연결 요소의 개수.vcxproj", "{2F06DBE4-7914-40A2-82EE-39EABB04BA1F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F06DBE4-7914-40A2-82EE-39EABB04BA1F}.Debug|x64.ActiveCfg = Debug|x64
+		{2F06DBE4-7914-40A2-82EE-39EABB04BA1F}.Debug|x64.Build.0 = Debug|x64
+		{2F06DBE4-7914-40A2-82EE-39EABB04BA1F}.Debug|x86.ActiveCfg = Debug|Win32
+		{2F06DBE4-7914-40A2-82EE-39EABB04BA1F}.Debug|x86.Build.0 = Debug|Win32
+		{2F06DBE4-7914-40A2-82EE-39EABB04BA1F}.Release|x64.ActiveCfg = Release|x64
+		{2F06DBE4-7914-40A2-82EE-39EABB04BA1F}.Release|x64.Build.0 = Release|x64
+		{2F06DBE4-7914-40A2-82EE-39EABB04BA1F}.Release|x86.ActiveCfg = Release|Win32
+		{2F06DBE4-7914-40A2-82EE-39EABB04BA1F}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AED9EC33-155B-4192-AE95-23E16D588032}
+	EndGlobalSection
+EndGlobal

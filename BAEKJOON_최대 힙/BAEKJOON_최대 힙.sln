@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1401
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BAEKJOON_최대 힙", "BAEKJOON_최대 힙\BAEKJOON_최대 힙.vcxproj", "{16A58DA0-F87C-4465-987D-B76FB64D5800}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16A58DA0-F87C-4465-987D-B76FB64D5800}.Debug|x64.ActiveCfg = Debug|x64
+		{16A58DA0-F87C-4465-987D-B76FB64D5800}.Debug|x64.Build.0 = Debug|x64
+		{16A58DA0-F87C-4465-987D-B76FB64D5800}.Debug|x86.ActiveCfg = Debug|Win32
+		{16A58DA0-F87C-4465-987D-B76FB64D5800}.Debug|x86.Build.0 = Debug|Win32
+		{16A58DA0-F87C-4465-987D-B76FB64D5800}.Release|x64.ActiveCfg = Release|x64
+		{16A58DA0-F87C-4465-987D-B76FB64D5800}.Release|x64.Build.0 = Release|x64
+		{16A58DA0-F87C-4465-987D-B76FB64D5800}.Release|x86.ActiveCfg = Release|Win32
+		{16A58DA0-F87C-4465-987D-B76FB64D5800}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C50BD37-C869-4126-9B02-F0042B881C43}
+	EndGlobalSection
+EndGlobal

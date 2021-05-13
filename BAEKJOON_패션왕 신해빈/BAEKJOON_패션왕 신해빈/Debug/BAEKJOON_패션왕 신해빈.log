@@ -1,0 +1,5 @@
+﻿  소스.cpp
+d:\project\visual studio 2017\baekjoon_패션왕 신해빈\baekjoon_패션왕 신해빈\소스.cpp(7): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+d:\project\visual studio 2017\baekjoon_패션왕 신해빈\baekjoon_패션왕 신해빈\소스.cpp(16): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+d:\project\visual studio 2017\baekjoon_패션왕 신해빈\baekjoon_패션왕 신해빈\소스.cpp(47): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  BAEKJOON_패션왕 신해빈.vcxproj -> D:\Project\Visual Studio 2017\BAEKJOON_패션왕 신해빈\Debug\BAEKJOON_패션왕 신해빈.exe

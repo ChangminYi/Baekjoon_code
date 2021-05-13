@@ -1,0 +1,5 @@
+﻿  소스.cpp
+d:\project\visual studio 2017\baekjoon_suffix array\baekjoon_suffix array\소스.cpp(27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+d:\project\visual studio 2017\baekjoon_suffix array\baekjoon_suffix array\소스.cpp(32): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+d:\project\visual studio 2017\baekjoon_suffix array\baekjoon_suffix array\소스.cpp(36): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  BAEKJOON_Suffix Array.vcxproj -> D:\Project\Visual Studio 2017\BAEKJOON_Suffix Array\Debug\BAEKJOON_Suffix Array.exe
