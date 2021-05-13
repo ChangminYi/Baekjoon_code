@@ -11,6 +11,7 @@
 **/*.vcxproj
 **/*.user
 **/*.sln
+**/*.filters
 **/.settings/
 **/bin
 
