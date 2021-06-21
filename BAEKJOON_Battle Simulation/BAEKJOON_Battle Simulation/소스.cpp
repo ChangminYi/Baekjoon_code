@@ -2,45 +2,56 @@
 
 #include <iostream>
 #include <string>
+#include <deque>
+
 using namespace std;
 
-char getDefense(char c) {
-	switch (c) {
-	case 'R': return 'S';
-	case 'B': return 'K';
-	case 'L': return 'H';
-	}
-}
-
-bool isCombo(string &s, int index) {
-	if (s[index] != s[index + 1] && s[index + 1] != s[index + 2] && s[index + 2] != s[index]) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
 int main() {
-	string input, output;
-	getline(cin, input);
+	cin.tie(nullptr);
+	cin.sync_with_stdio(false);
 
-	for (int i = 0; i < input.size(); ) {
-		if (i < input.size() - 2) {
-			if (isCombo(input, i)) {
-				output += 'C';
-				i += 3;
-			}
-			else {
-				output += getDefense(input[i++]);
-			}
+	deque<char> str;
+	string temp;
+	cin >> temp;
+	for (char& c : temp) {
+		str.push_back(c);
+	}
+
+	while (str.size() >= 3) {
+		if (str[0] != str[1] && str[1] != str[2] && str[0] != str[2]) {
+			cout << 'C';
+			str.pop_front(); str.pop_front(); str.pop_front();
 		}
 		else {
-			output += getDefense(input[i++]);
+			switch (str[0]) {
+			case 'R':
+				cout << 'S';
+				break;
+			case 'B':
+				cout << 'K';
+				break;
+			case 'L':
+				cout << 'H';
+				break;
+			}
+			str.pop_front();
 		}
 	}
 
-	cout << output;
+	while (!str.empty()) {
+		switch (str[0]) {
+		case 'R':
+			cout << 'S';
+			break;
+		case 'B':
+			cout << 'K';
+			break;
+		case 'L':
+			cout << 'H';
+			break;
+		}
+		str.pop_front();
+	}
 
 	return 0;
 }
