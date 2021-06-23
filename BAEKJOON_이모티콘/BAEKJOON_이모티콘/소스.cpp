@@ -1,48 +1,56 @@
 #include <iostream>
+#include <vector>
 #include <queue>
 
 using namespace std;
 
-typedef class STATUS {
-public:
-	int cur_num;
+typedef struct STATUS {
+	int screen;
 	int clipboard;
 	int time;
-	STATUS() {};
-	STATUS(int _num, int _clip, int _time) : cur_num(_num), clipboard(_clip), time(_time) {};
-} status;
+}status;
 
-bool isInRange(int i) {
-	if (0 <= i && i <= 1000) {
-		return true;
-	}
-	return false;
-}
+#define MAX 10001
+
+vector<vector<bool>> visit(MAX, vector<bool>(MAX, false));
 
 int main() {
-	int ans = 0;
-	cin >> ans;
+	cin.tie(nullptr);
+	cin.sync_with_stdio(false);
+	cout.tie(nullptr);
+	cout.sync_with_stdio(false);
 
-	vector<bool> check(1001, false);
-	queue<status> togo;
-	togo.push(status(1, 0, 0));
-	while (true) {
-		status now = togo.front();
-		check[now.cur_num] = true;
-		togo.pop();
+	int n = 0;
+	cin >> n;
 
-		if (now.cur_num == ans) {
-			cout << now.time;
+	queue<status> to_go;
+	to_go.push({1, 0, 0});
+	visit[1][0] = true;
+	while (!to_go.empty()) {
+		status cur = to_go.front();
+		to_go.pop();
+
+		if (cur.screen == n) {
+			cout << cur.time;
 			break;
 		}
 		else {
-			if (now.cur_num - 1 >= 0 && !check[now.cur_num-1]) {
-				togo.push(status(now.cur_num - 1, now.clipboard, now.time + 1));
+			if (cur.clipboard != 0) {
+				if (!visit[cur.screen + cur.clipboard][cur.clipboard]) {
+					visit[cur.screen + cur.clipboard][cur.clipboard] = true;
+					to_go.push({ cur.screen + cur.clipboard, cur.clipboard, cur.time + 1 });
+				}
 			}
-			if (now.clipboard != 0 && !check[now.cur_num+now.clipboard]) {
-				togo.push(status(now.cur_num + now.clipboard, now.clipboard, now.time + 1));
+			if (cur.screen > 0) {
+				if (!visit[cur.screen][cur.screen]) {
+					visit[cur.screen][cur.screen] = true;
+					to_go.push({ cur.screen, cur.screen, cur.time + 1 });
+				}
+				if (!visit[cur.screen - 1][cur.clipboard]) {
+					visit[cur.screen - 1][cur.clipboard] = true;
+					to_go.push({ cur.screen - 1, cur.clipboard, cur.time + 1 });
+				}
 			}
-			togo.push(status(now.cur_num, now.cur_num, now.time + 1));
 		}
 	}
 
