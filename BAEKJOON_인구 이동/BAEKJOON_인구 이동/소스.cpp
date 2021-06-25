@@ -1,110 +1,113 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <algorithm>
+#include <cmath>
 
 using namespace std;
-
 typedef pair<int, int> pint;
-typedef long long lint;
 
-pint operator+ (pint a, pint b) {
-	return { a.first + b.first, a.second + b.second };
-}
+const int MAX = 50;
+int land[MAX][MAX];
+int n, L, R;
+vector<pint> adj = {
+	{1, 0}, {-1, 0}, {0, 1}, {0, -1}
+};
 
-bool isInRange(const pint dir, const int size) {
-	if (0 <= dir.first && dir.first < size && 0 <= dir.second && dir.second < size) {
-		return true;
-	}
-	return false;
-}
 
-bool isInValue(const pint &cur, const pint &nDir, const int _min, const int _max, const vector<vector<int>> &argi) {
-	if (abs(argi[cur.first][cur.second] - argi[nDir.first][nDir.second]) >= _min) {
-		if (abs(argi[cur.first][cur.second] - argi[nDir.first][nDir.second]) <= _max) {
+bool in_range(const pint& p) {
+	if (0 <= p.first && p.first < n) {
+		if (0 <= p.second && p.second < n) {
 			return true;
 		}
 	}
 	return false;
 }
 
+bool can_open(const pint& a, const pint& b) {
+	int sub = abs(land[a.first][a.second] - land[b.first][b.second]);
+	if (L <= sub && sub <= R) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
 
 int main() {
 	cin.tie(nullptr);
-	cout.tie(nullptr);
 	cin.sync_with_stdio(false);
+	cout.tie(nullptr);
 	cout.sync_with_stdio(false);
 
-	const vector<pint> move = {
-		{1, 0}, {-1, 0}, {0, 1}, {0, -1}
-	};
+	cin >> n >> L >> R;
 
-	int N = 0, L = 0, R = 0;
-	cin >> N >> L >> R;
-	vector<vector<int>> map(N, vector<int>(N));
-	for (vector<int> &i : map) {
-		for (int &j : i) {
-			cin >> j;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			cin >> land[i][j];
 		}
 	}
 
-	int counter = 0;
+	int move_count = 0;
 	while (true) {
-		vector<vector<pint>> area;
-		vector<vector<bool>> visit(N, vector<bool>(N, false));
+		bool change = false;
+		vector<vector<bool>> check(n, vector<bool>(n, false));
+		vector<vector<pint>> to_change;
+		queue<pint> que;
 
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
-				if (!visit[i][j]) {
-					vector<pint> tempArea;
-					queue<pint> qu;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
 
-					qu.push({ i, j });
-					while (!qu.empty()) {
-						pint curr = qu.front();
-						qu.pop();
-						if (!visit[curr.first][curr.second]) {
-							visit[curr.first][curr.second] = true;
-							tempArea.push_back(curr);
+				for (pint& pos : adj) {
+					pint new_pos = { i + pos.first, j + pos.second };
 
-							for (uint32_t k = 0; k < move.size(); k++) {
-								pint newPos = curr + move[i];
-								if (isInRange(newPos, N) && isInValue(curr, newPos, L, R, map) && !visit[newPos.first][newPos.second]) {
-									qu.push(newPos);
+					if (in_range(new_pos) && can_open({ i, j }, new_pos) && !check[new_pos.first][new_pos.second]) {
+						change = true;
+
+						check[i][j] = true;
+						to_change.push_back({ make_pair(i, j) });
+						que.push({ i, j });
+						while (!que.empty()) {
+							pint cur = que.front();
+							que.pop();
+
+							for (pint& to_see : adj) {
+								pint temp = { cur.first + to_see.first, cur.second + to_see.second };
+
+								if (in_range(temp) && can_open(cur, temp) && !check[temp.first][temp.second]) {
+									check[temp.first][temp.second] = true;
+									to_change.back().push_back(temp);
+									que.push(temp);
 								}
 							}
 						}
 					}
-
-					if (tempArea.size() > 1) {
-						area.push_back(tempArea);
-					}
 				}
+
 			}
 		}
 
-		if (area.empty()) {
+		for (vector<pint>& argi : to_change) {
+			int sum = 0;
+			for (pint& i : argi) {
+				sum += land[i.first][i.second];
+			}
+
+			sum /= argi.size();
+			for (pint& i : argi) {
+				land[i.first][i.second] = sum;
+			}
+		}
+
+		if (!change) {
 			break;
 		}
 		else {
-			counter++;
-
-			for (uint32_t i = 0; i < area.size(); i++) {
-				lint sum = 0;
-
-				for (pint &j : area[i]) {
-					sum += map[j.first][j.second];
-				}
-
-				int mid = (int)((long double)sum / area[i].size());
-				for (pint &j : area[i]) {
-					map[j.first][j.second] = mid;
-				}
-			}
+			//move_count += to_change.size();
+			move_count++;
 		}
 	}
 
-	cout << counter;
+	cout << move_count;
 
 	return 0;
 }
