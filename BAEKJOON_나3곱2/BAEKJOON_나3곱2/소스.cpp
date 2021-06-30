@@ -7,25 +7,6 @@ using namespace std;
 
 typedef long long lli;
 
-bool bin_srch(lli to_find, vector<lli>& argi) {
-	int lft = 0, rgt = argi.size() - 1;
-	while (lft <= rgt) {
-		int mid = (lft + rgt) / 2;
-		if (argi[mid] == to_find) {
-			return true;
-		}
-		else {
-			if (argi[mid] < to_find) {
-				lft = mid + 1;
-			}
-			else {
-				rgt = mid - 1;
-			}
-		}
-	}
-	return false;
-}
-
 vector<lli> bfs(lli start, vector<lli>& argi) {
 	queue<vector<lli>> que;
 	que.push(vector<lli>(1, start));
@@ -40,13 +21,13 @@ vector<lli> bfs(lli start, vector<lli>& argi) {
 
 		bool is_divided = (cur.back() % 3 == 0);
 		lli to_test = cur.back() / 3;
-		if (is_divided && bin_srch(to_test, argi) && !bin_srch(to_test, cur)) {
+		if (is_divided && binary_search(argi.begin(), argi.end(), to_test) && !binary_search(cur.begin(), cur.end(), to_test)) {
 			vector<lli> tmp = cur;
 			tmp.push_back(to_test);
 			que.push(tmp);
 		}
 		to_test = cur.back() * 2;
-		if (bin_srch(to_test, argi) && !bin_srch(to_test, cur)) {
+		if (binary_search(argi.begin(), argi.end(), to_test) && !binary_search(cur.begin(), cur.end(), to_test)) {
 			vector<lli> tmp = cur;
 			tmp.push_back(to_test);
 			que.push(tmp);
