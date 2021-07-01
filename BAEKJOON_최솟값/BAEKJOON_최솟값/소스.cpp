@@ -1,12 +1,23 @@
 #include <iostream>
-#include <map>
+#include <functional>
+#include <unordered_map>
 #include <vector>
+#include <string>
 
 using namespace std;
 
 typedef pair<int, int> pint;
 
-int init_segtree(map<pint, int>& segtree, vector<int>& argi, pint& root) {
+template <>
+struct std::hash<pint> {
+	std::hash<string> hasher;
+	std::size_t operator() (const pint& p) const {
+		string to_hash = to_string(p.first) + "0" + to_string(p.second);
+		return hasher(to_hash);
+	}
+};
+
+int init_segtree(unordered_map<pint, int>& segtree, vector<int>& argi, pint& root) {
 	if (root.first == root.second) {
 		return argi[root.first];
 	}
@@ -31,7 +42,7 @@ bool in_range(const pint& child, const pint& mother) {
 	return false;
 }
 
-int search_segtree(pint& to_find, map<pint, int>& segtree, vector<int>& argi, pint& root) {
+int search_segtree(pint& to_find, unordered_map<pint, int>& segtree, vector<int>& argi, pint& root) {
 	if (to_find == root) {
 		if (to_find.first == to_find.second) {
 			return argi[to_find.first];
@@ -78,7 +89,7 @@ int main() {
 
 	//min_segtree
 	pint seg_range = make_pair(1, n);
-	map<pint, int> segtree;
+	unordered_map<pint, int> segtree;
 	init_segtree(segtree, argi, seg_range);
 
 	for (int i = 0; i < m; i++) {
