@@ -1,11 +1,22 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <map>
+#include <unordered_map>
+#include <functional>
+#include <string>
 
 using namespace std;
 
 typedef pair<int, int> pint;
+
+template <>
+struct std::hash<pint> {
+	std::hash<string> hasher;
+	std::size_t operator() (const pint& p) const {
+		string to_hash = to_string(p.first) + "0" + to_string(p.second);
+		return hasher(to_hash);
+	}
+};
 
 bool in_range(pint& small, pint& large) {
 	if (large.first <= small.first && small.second <= large.second) {
@@ -14,7 +25,7 @@ bool in_range(pint& small, pint& large) {
 	return false;
 }
 
-int init_segTree(map<pint, int> &segtree, vector<int>& argi, pint& max_range, bool is_maxSeg) {
+int init_segTree(unordered_map<pint, int> &segtree, vector<int>& argi, pint& max_range, bool is_maxSeg) {
 	if (max_range.first == max_range.second) {
 		return argi[max_range.first];
 	}
@@ -37,7 +48,7 @@ int init_segTree(map<pint, int> &segtree, vector<int>& argi, pint& max_range, bo
 	}
 }
 
-int search_segTree(pint range, map<pint, int>& segtree, vector<int> &argi, pint max_range, bool is_maxSeg) {
+int search_segTree(pint range, unordered_map<pint, int>& segtree, vector<int> &argi, pint max_range, bool is_maxSeg) {
 	if (range == max_range) {
 		if (range.first == range.second) {
 			return argi[range.first];
@@ -88,7 +99,7 @@ int main() {
 	}
 
 	pint seg_range = make_pair(0, n - 1);
-	map<pint, int> max_seg, min_seg;
+	unordered_map<pint, int> max_seg, min_seg;
 	init_segTree(max_seg, argi, seg_range, true);
 	init_segTree(min_seg, argi, seg_range, false);
 
