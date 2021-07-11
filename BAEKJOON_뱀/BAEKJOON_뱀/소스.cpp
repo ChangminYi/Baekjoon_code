@@ -1,95 +1,99 @@
-//예제는 다 맞았는데 틀렸음
-
-
 #include <iostream>
 #include <vector>
 #include <deque>
+
 using namespace std;
 
-typedef struct {
-	int row;
-	int col;
-}dir;
+typedef pair<int, char> dat;
+typedef pair<int, int> pint;
 
+const int EMPTY = 0;
+const int APPLE = 1;
 
-void turnRight(int &index) {
-	index = (index + 1) % 4;
+int n, k;
+const vector<pint> direc = {
+	{0, 1}, {1, 0}, {0, -1}, {-1, 0}
+};
+int dir_idx = 0;
+vector<vector<int>> board;
+deque<dat> inst;
+deque<pint> snake;
+
+void turn_right() {
+	dir_idx = (dir_idx + 5) % 4;
 }
 
-void turnLeft(int &index) {
-	index = (index + 3) % 4;
+void turn_left() {
+	dir_idx = (dir_idx + 3) % 4;
 }
 
-bool hasTouchedBody(pair<int, int> &head, deque<pair<int, int>> &snake) {
-	for (int i = 1; i < snake.size(); i++) {
-		if (head.first == snake[i].first && head.second == snake[i].second) {
+bool in_board() {
+	if (0 <= snake.front().first && snake.front().first < n) {
+		if (0 <= snake.front().second && snake.front().second < n) {
 			return true;
 		}
 	}
 	return false;
 }
 
-bool isInBoard(pair<int, int> &head, int boardSize) {
-	if (head.first < 0 || head.second < 0 || head.first >= boardSize || head.second >= boardSize) {
-		return false;
+bool touch_body() {
+	for (size_t i = 1; i < snake.size(); i++) {
+		if (snake.front() == snake[i]) {
+			return true;
+		}
 	}
-	return true;
+	return false;
 }
 
 int main() {
-	dir move[4] = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
-	int boardSize = 0, appleNum = 0, behaveNum = 0, count = 0;
-	deque<pair<int, int>> snake = { {0, 0} }; //front: head
-	int moveIndex = 0;
+	cin.tie(nullptr);
+	cin.sync_with_stdio(false);
+	cout.tie(nullptr);
+	cout.sync_with_stdio(false);
 
-	cin >> boardSize;
-	vector<vector<bool>> board = vector<vector<bool>>(boardSize);
-	for (int i = 0; i < boardSize; i++) {
-		board[i] = vector<bool>(boardSize, false);
+	cin >> n >> k;
+	board = vector<vector<int>>(n, vector<int>(n, EMPTY));
+	for (int i = 0, row, col; i < k; i++) {
+		cin >> row >> col;
+		board[--row][--col] = APPLE;
 	}
 
-	cin >> appleNum;
-	for (int i = 0, temp[2]; i < appleNum; i++) {
-		cin >> temp[0] >> temp[1];
-		board[temp[0] - 1][temp[1] - 1] = true;
+	int n_inst;
+	cin >> n_inst;
+	inst = deque<dat>(n_inst);
+	for (dat& d : inst) {
+		cin >> d.first >> d.second;
 	}
 
-	cin >> behaveNum;
-	deque<pair<int, char>> behave = deque<pair<int, char>>(behaveNum);
-	for (int i = 0; i < behaveNum; i++) {
-		cin >> behave[i].first >> behave[i].second;
-	}
+	snake.push_back(make_pair(0, 0));
+	for (int time_cnt = 0; ; ) {
+		time_cnt++;
 
-	while (true) {
-		count++;
-		pair<int, int> nowHead = { snake.front().first + move[moveIndex].row, snake.front().second + move[moveIndex].col };
-
-		if (hasTouchedBody(nowHead, snake) || !isInBoard(nowHead, boardSize)) {
-			cout << count;
-			break;
-		}
-		else {
-			snake.push_front(nowHead);
-			if (board[nowHead.first][nowHead.second] == false) {
-				snake.pop_back();
+		pint new_head = make_pair(snake.front().first + direc[dir_idx].first, snake.front().second + direc[dir_idx].second);
+		snake.push_front(new_head);
+		if (in_board() && !touch_body()) {
+			if (board[new_head.first][new_head.second] == APPLE) {
+				board[new_head.first][new_head.second] = EMPTY;
 			}
 			else {
-				board[nowHead.first][nowHead.second] == false;
-			}
-
-			if (behave.size() != 0 && behave.front().first == count) {
-				if (behave.front().second == 'L') {
-					turnLeft(moveIndex);
-				}
-				else if(behave.front().second == 'D'){
-					turnRight(moveIndex);
-				}
-
-				behave.pop_front();
+				snake.pop_back();
 			}
 		}
-	}
+		else {
+			cout << time_cnt;
+			break;
+		}
 
+		if (!inst.empty() && inst.front().first == time_cnt) {
+			if (inst.front().second == 'L') {
+				turn_left();
+			}
+			else if(inst.front().second == 'D') {
+				turn_right();
+			}
+			inst.pop_front();
+		}
+	}
 
 	return 0;
 }
