@@ -1,6 +1,7 @@
 #for IntelliJ
 **/.idea/
 **/.out
+**/.iml
 
 #for PyCharm
 **/venv/
