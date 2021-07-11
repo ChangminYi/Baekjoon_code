@@ -9,7 +9,6 @@ typedef pair<int, int> pint;
 const int NOT_VISIT = 0;
 vector<vector<int>> graph;
 vector<pint> cut_edge;
-vector<bool> is_cut;
 vector<int> discov;
 int visit_cnt = 0;
 
@@ -48,7 +47,6 @@ int main() {
 	int v, e;
 	cin >> v >> e;
 	graph = vector<vector<int>>(v + 1);
-	is_cut = vector<bool>(v + 1, false);
 	discov = vector<int>(v + 1, NOT_VISIT);
 	for (int i = 0, arg1, arg2; i < e; i++) {
 		cin >> arg1 >> arg2;
