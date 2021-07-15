@@ -1,60 +1,60 @@
 #include <iostream>
 #include <vector>
-#include <deque>
 #include <queue>
 #include <functional>
 
 using namespace std;
 
-typedef struct EDGE {
-public:
-	EDGE() :dest(0), val(0) {};
-	EDGE(int _dest, int _val) :dest(_dest), val(_val) {};
-	int dest;
-	int val;
-}edge;
+typedef pair<int, int> pint;
 
-int findPath(int from, int to, vector<deque<edge>> &graph) {
-	vector<int> distance = vector<int>(graph.size(), 0x7fffffff);
-	priority_queue<pair<int, int>, vector<pair<int, int>>, less<pair<int, int>>> pq;
-	
-	distance[from] = 0;
-	pq.push({ distance[from], from });
+const int INF = 1000000000;
+const int MAX_NODE = 1001;
+
+vector<int> dist(MAX_NODE, INF);
+vector<vector<pint>> graph(MAX_NODE);
+priority_queue<pint, vector<pint>, greater<pint>>pq;
+
+int dijkstra(int start, int destination) {
+	dist[start] = 0;
+	pq.push(make_pair(dist[start], start));
+
 	while (!pq.empty()) {
-		int current = pq.top().second;
-		int cost = pq.top().first;
+		int cur = pq.top().second;
+		int cur_dist = pq.top().first;
 		pq.pop();
 
-		for (uint32_t i = 0; i < graph[current].size(); i++) {
-			int newVal = distance[current] + graph[current][i].val;
-			int oldVal = distance[graph[current][i].dest];
+		if (dist[cur] >= cur_dist) {
+			for (pint& edge : graph[cur]) {
+				int nxt = edge.first;
+				int new_val = cur_dist + edge.second;
 
-			if (newVal < oldVal) {
-				distance[graph[current][i].dest] = newVal;
-				pq.push({ newVal, graph[current][i].dest });
+				if (new_val < dist[nxt]) {
+					dist[nxt] = new_val;
+					pq.push(make_pair(new_val, nxt));
+				}
 			}
 		}
 	}
 
-	return distance[to];
+	return dist[destination];
 }
 
 int main() {
 	cin.tie(nullptr);
 	cin.sync_with_stdio(false);
+	cout.tie(nullptr);
+	cout.sync_with_stdio(false);
 
-	int N = 0, M = 0, start = 0, end = 0;
-	cin >> N >> M;
-	vector<deque<edge>> graph = vector<deque<edge>>(N);
-	for (int i = 0, temp[3]; i < M; i++) {
-		cin >> temp[0] >> temp[1] >> temp[2];
-		temp[0]--, temp[1]--;
-		graph[temp[0]].push_back(edge(temp[1], temp[2]));
+	int n, m;
+	cin >> n >> m;
+	for (int i = 0, stt, dst, val; i < m; i++) {
+		cin >> stt >> dst >> val;
+		graph[stt].push_back(make_pair(dst, val));
 	}
-	cin >> start >> end;
-	start--, end--;
 
-	cout << findPath(start, end, graph);
+	int depart, arrive;
+	cin >> depart >> arrive;
+	cout << dijkstra(depart, arrive);
 
 	return 0;
 }
