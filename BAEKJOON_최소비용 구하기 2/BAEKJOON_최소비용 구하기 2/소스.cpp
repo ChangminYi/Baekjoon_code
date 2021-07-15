@@ -1,55 +1,49 @@
 #include <iostream>
 #include <vector>
-#include <deque>
 #include <queue>
-#include <climits>
+#include <stack>
+#include <functional>
 
 using namespace std;
 
 typedef pair<int, int> pint;
 
-class compare {
-public:
-	bool operator() (pint a, pint b) {
-		return a.first > b.first;
-	}
-};
+const int INF = 1000000000;
+const int MAX_NODE = 1001;
 
-pair<int, deque<int>> findPath(vector<vector<pint>> &graph, int arrival, int destination) {
-	vector<int> costTable(graph.size(), INT32_MAX);
-	vector<bool> found(graph.size(), false);
-	vector<int> from(graph.size());
-	priority_queue<pint, vector<pint>, compare> pq;
+vector<vector<pint>> graph(MAX_NODE);
+vector<int> dist(MAX_NODE, INF);
+vector<int> parent(MAX_NODE);
+priority_queue<pint, vector<pint>, greater<pint>> pq;
+stack<int> trace;
 
-	costTable[arrival] = 0;
-	found[arrival] = true;
-	pq.push(make_pair(0, arrival));
+void dijk(int start, int destination) {
+	dist[start] = 0;
+	pq.push(make_pair(dist[start], start));
+
 	while (!pq.empty()) {
-		int current = pq.top().second;
+		int cur = pq.top().second;
+		int cur_val = pq.top().first;
 		pq.pop();
 
-		found[current] = true;
-		for (uint32_t i = 0; i < graph[current].size(); i++) {
-			int newCost = costTable[current] + graph[current][i].first;
-			int oldCost = costTable[graph[current][i].second];
+		if (dist[cur] >= cur_val) {
+			for (pint& edge : graph[cur]) {
+				int nxt = edge.first;
+				int new_val = cur_val + edge.second;
 
-			if (!found[graph[current][i].second]) {
-				if (newCost < oldCost) {
-					costTable[graph[current][i].second] = newCost;
-					from[graph[current][i].second] = current;
-
-					pq.push(make_pair(newCost, graph[current][i].second));
+				if (new_val < dist[nxt]) {
+					parent[nxt] = cur;
+					dist[nxt] = new_val;
+					pq.push(make_pair(new_val, nxt));
 				}
 			}
 		}
 	}
 
-	deque<int> trace(1, destination);
-	while (trace.front() != arrival) {
-		trace.push_front(from[trace.front()]);
+	trace.push(destination);
+	while (trace.top() != start) {
+		trace.push(parent[trace.top()]);
 	}
-
-	return make_pair(costTable[destination], trace);
 }
 
 int main() {
@@ -58,21 +52,20 @@ int main() {
 	cout.tie(nullptr);
 	cout.sync_with_stdio(false);
 
-	int n = 0, m = 0, arrival = 0, destiation = 0;
+	int n, m, depart, arrival;
 	cin >> n >> m;
-	vector<vector<pint>> city(n);
-	for (int i = 0, arri, dest, val; i < m; i++) {
-		cin >> arri >> dest >> val;
-		city[--arri].push_back(make_pair(val, --dest));
+	for (int i = 0, stt, dst, val; i < m; i++) {
+		cin >> stt >> dst >> val;
+		graph[stt].push_back(make_pair(dst, val));
 	}
-	cin >> arrival >> destiation;
 
+	cin >> depart >> arrival;
+	dijk(depart, arrival);
 
-	pair<int, deque<int>> res = findPath(city, --arrival, --destiation);
-	cout << res.first << '\n';
-	cout << res.second.size() << '\n';
-	for (int i : res.second) {
-		cout << i + 1 << ' ';
+	cout << dist[arrival] << '\n' << trace.size() << '\n';
+	while (!trace.empty()) {
+		cout << trace.top() << ' ';
+		trace.pop();
 	}
 
 	return 0;
