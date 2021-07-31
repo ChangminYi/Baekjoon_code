@@ -3,36 +3,42 @@
 
 using namespace std;
 
-typedef struct DIRECTION {
-public:
-	DIRECTION() : upleft({ 0, 0 }), leng(0) {};
-	DIRECTION(pair<int, int> _pair, int _leng) : upleft(_pair), leng(_leng) {};
-	pair<int, int> upleft;
-	int leng;
-}dir;
-
-int count = 0, r = 0, c = 0;
-
-void getCount(dir current) {
-	if (current.leng > 1) {
-		getCount({ current.upleft, current.leng / 2 });
-		getCount({ {current.upleft.first, current.upleft.second + current.leng / 2}, current.leng / 2 });
-		getCount({ {current.upleft.first + current.leng / 2, current.upleft.second}, current.leng / 2 });
-		getCount({ {current.upleft.first + current.leng / 2, current.upleft.second + current.leng / 2}, current.leng / 2 });
-	}
-	else {
-		if (current.upleft.first == ::r && current.upleft.second == ::c) {
-			cout << ::count;
-		}
-		::count++;
-	}
-}
-
 int main() {
-	int N = 0;
-	cin >> N >> ::r >> ::c;
+	cin.tie(nullptr)->sync_with_stdio(false);
+	cout.tie(nullptr)->sync_with_stdio(false);
 
-	getCount(dir({ 0, 0 }, pow(2, N)));
+	int n, r, c;
+	cin >> n >> r >> c;
+
+	int res = 0;
+	int tmp_col = (int)pow(2, n - 1);
+	int tmp_row = tmp_col;
+	while (n-- > 0) {
+		int line_shift = (int)pow(2, n - 1);
+		int block_size = (int)pow(4, n);
+
+        if (tmp_col > c && tmp_row > r) {
+			tmp_col -= line_shift;
+			tmp_row -= line_shift;
+        }
+        else if (tmp_col <= c && tmp_row > r) {
+			tmp_col += line_shift;
+			tmp_row -= line_shift;
+            res += block_size;
+        }
+        else if (tmp_col > c && tmp_row <= r) {
+			tmp_col -= line_shift;
+			tmp_row += line_shift;
+            res += 2 * block_size;
+        }
+        else {
+			tmp_col += line_shift;
+			tmp_row += line_shift;
+            res += 3 * block_size;
+        }
+	}
+
+	cout << res;
 
 	return 0;
 }
