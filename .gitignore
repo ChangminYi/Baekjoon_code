@@ -1,12 +1,12 @@
 #for IntelliJ
 **/.idea/
-**/.out
-**/.iml
+**/*.out
+**/*.iml
 
 #for PyCharm
 **/venv/
 
-#for Visual Studio 17
+#for Visual Studio
 **/.vs/
 **/Debug/
 **/*.vcxproj
@@ -15,6 +15,7 @@
 **/*.filters
 **/.settings/
 **/bin
+**/x64/
 
 #for C++
 # Prerequisites
