@@ -1,61 +1,82 @@
-//시간초과
-
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
 using namespace std;
 
-typedef pair<int, int> dir;
+typedef long long lli;
+typedef pair<lli, lli> plli;
 
-bool isPerpendi(vector<dir> argi) {
-	dir vector[3] = {
-		{argi[0].first - argi[1].first, argi[0].second - argi[1].second},
-		{argi[1].first - argi[2].first, argi[1].second - argi[2].second},
-		{argi[2].first - argi[0].first, argi[2].second - argi[0].second}
-	};
+class point {
+public:
+	lli x = 0, y = 0;
+	int plane = 0;
 
-	long long inner[3] = {
-		vector[0].first*vector[1].first + vector[0].second*vector[1].second,
-		vector[1].first*vector[2].first + vector[1].second*vector[2].second,
-		vector[2].first*vector[0].first + vector[2].second*vector[0].second
-	};
+	point() {}
+	point(lli _x, lli _y) : x(_x), y(_y) {}
 
-	for (uint32_t i = 0; i < 3; i++) {
-		if (inner[i] == 0) { return true; }
+	void rotate() {
+		plane = (plane + 1) % 4;
+		swap(x, y);
+		y *= -1;
 	}
-	return false;
-}
-
-vector<dir> getdir(vector<dir> argi, vector<bool> &argb) {
-	vector<dir> coordinates;
-	for (uint32_t i = 0; i < argi.size(); i++) {
-		if (argb[i]) { coordinates.push_back(argi[i]); }
+	bool operator< (const point& other) const {
+		return this->y * other.x < this->x * other.y;
 	}
-	return coordinates;
+	bool operator== (const point& other) const {
+		return this->x * other.y == this->y * other.x;
+	}
+};
+
+int n;
+lli ans = 0;
+vector<plli> dir;
+vector<point> p_list;
+vector<lli> cnt(4);
+
+istream& operator>> (istream& in, plli& p) {
+	return in >> p.first >> p.second;
 }
 
 int main() {
-	cin.tie(NULL);
-	cin.sync_with_stdio(false);
+	cin.tie(nullptr)->sync_with_stdio(false);
+	cout.tie(nullptr)->sync_with_stdio(false);
 
-	uint32_t N = 0;
-	cin >> N;
-	vector<dir> dot = vector<dir>(N);
-	for (uint32_t i = 0; i < N; i++) {
-		cin >> dot[i].first >> dot[i].second;
+	cin >> n;
+	dir = vector<plli>(n);
+	for (plli& p : dir) {
+		cin >> p;
 	}
 
-	vector<bool> table = vector<bool>(N, false);
-	for (uint32_t i = 0; i < 3; i++) {
-		table[i] = true;
+	for (int i = 0; i < n; i++) {
+		p_list.clear();
+
+		for (int j = 0; j < n;j++) {
+			if (i != j) {
+				point tmp = point(dir[j].first - dir[i].first, dir[j].second - dir[i].second);
+				while (tmp.x <= 0 || tmp.y < 0) {
+					tmp.rotate();
+				}
+
+				p_list.push_back(tmp);
+			}
+		}
+
+		sort(p_list.begin(), p_list.end());
+		for (int j = 0, k; j < (int)p_list.size(); j = k) {
+			fill(cnt.begin(), cnt.end(), 0);
+			
+			for (k = j; (k < (int)p_list.size()) && (p_list[j] == p_list[k]); k++) {
+				cnt[p_list[k].plane]++;
+			}
+			
+			for (int k = 0; k < (int)cnt.size(); k++) {
+				ans += cnt[k] * cnt[(k + 1) % cnt.size()];
+			}
+		}
 	}
 
-	int count = 0;
-	do {
-		if (isPerpendi(getdir(dot, table))) { count++; }
-	} while (prev_permutation(table.begin(), table.end()));
-
-	cout << count;
+	cout << ans;
 
 	return 0;
 }
