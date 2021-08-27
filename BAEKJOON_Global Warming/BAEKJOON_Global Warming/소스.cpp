@@ -3,52 +3,51 @@
 
 using namespace std;
 
+int n;
+vector<int> argi;
+vector<int> patt;
+
+bool find_pattern(int interval) {
+	for (int i = 0; i < n - 1; i++) {
+		if (patt[i] != patt[i % interval]) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
 int main() {
-	cin.tie(nullptr);
-	cin.sync_with_stdio(false);
+	cin.tie(nullptr)->sync_with_stdio(false);
+	cout.tie(nullptr)->sync_with_stdio(false);
 
 	while (true) {
-		int N = 0;
-		cin >> N;
-		
-		if (N == 0) {
+		cin >> n;
+
+		if (n == 0) {
 			break;
 		}
 		else {
-			vector<int> patt(N - 1);
-			int last = 0, now = 0;
-			cin >> last;
-			for (int i = 0; i < N - 1; i++) {
-				cin >> now;
-				patt[i] = now - last;
-				last = now;
+			argi.resize(n);
+			patt.resize(n - 1);
+
+			for (int& i : argi) {
+				cin >> i;
 			}
 
-			bool breakFlag = false;
-			for (int i = 1; i < N / 2; i++) {
-				vector<int> smallpatt = vector<int>(patt.begin(), patt.begin() + i);
-				for (int j = i; j < N; j += i) {
-					if (j + i >= N) {
-						for (int k = 0; k < N - j; k++) {
-							if (smallpatt[k] != patt[k + j]) {
-								cout << patt.size();
-							}
-							else if (k + j == N - 1) {
-								cout << smallpatt.size();
-							}
-						}
-						breakFlag = true;
-						break;
-					}
-					else if (smallpatt != vector<int>(patt.begin() + j, patt.begin() + j + i)) {
-						break;
-					}
-					else {
-						continue;
-					}
+			if (n == 1) {
+				cout << 0 << '\n';
+			}
+			else {
+				for (int i = 0; i < n - 1; i++) {
+					patt[i] = argi[i + 1] - argi[i];
 				}
-				if (breakFlag) {
-					break;
+
+				for (int i = 1; i <= n - 1; i++) {
+					if (find_pattern(i)) {
+						cout << i << '\n';
+						break;
+					}
 				}
 			}
 		}
