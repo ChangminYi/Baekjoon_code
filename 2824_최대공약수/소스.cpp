@@ -1,99 +1,101 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
-#include <iomanip>
 #include <cmath>
 
 using namespace std;
 
-#define MAX 1000000000
-
 typedef long long lli;
-typedef unordered_map<int, int> umap;
 
-vector<int> prime = { 2, 3 };
+constexpr int MAX = 1000000000;
+
+int n, m;
+bool over_max = false;
+vector<int> prime = { 2 };
+unordered_map<int, int> cnt_a, cnt_b;
 
 void init_prime() {
-	for (int i = prime.back() + 2; i <= (int)sqrt(MAX); i += 2) {
-		bool divisible = false;
+    for (int i = 3; i <= (int)sqrt(MAX); i += 2) {
+        bool divided = false;
+        for (const int& j : prime) {
+            if (i % j == 0) {
+                divided = true;
+                break;
+            }
+        }
 
-		for (int j = 0; prime[j] <= (int)sqrt(i); j++) {
-			if (i % prime[j] == 0) {
-				divisible = true;
-				break;
-			}
-		}
-
-		if (!divisible) {
-			prime.push_back(i);
-		}
-	}
+        if (!divided) {
+            prime.push_back(i);
+        }
+    }
 }
 
-void prime_fact(int to_fact, umap& cont) {
-	for (size_t i = 0; i < prime.size() && to_fact > 1; i++) {
-		if (to_fact % prime[i] == 0) {
-			cont.insert(make_pair(prime[i], 0));
-			while (to_fact % prime[i] == 0) {
-				cont[prime[i]]++;
-				to_fact /= prime[i];
-			}
-		}
-	}
+void factorization(int n, unordered_map<int, int>& cnt) {
+    for (const int& p : prime) {
+        if (n % p == 0) {
+            cnt.insert(make_pair(p, 0));
 
-	if (to_fact > 1) {
-		cont.insert(make_pair(to_fact, 1));
-	}
+            while (n % p == 0) {
+                n /= p;
+                cnt[p]++;
+            }
+        }
+    }
+
+    if (n > 1) {
+        cnt.insert(make_pair(n, 1));
+    }
 }
 
 int main() {
-	cin.tie(nullptr);
-	cin.sync_with_stdio(false);
-	cout.tie(nullptr);
-	cout.sync_with_stdio(false);
+    cin.tie(nullptr)->sync_with_stdio(false);
 
-	init_prime();
+    init_prime();
+    /*
+    * 각각의 수에 대해서 모두 소인수분해를 진행,
+    * map에 소인수와 그 수를 저장.
+    */
+    cin >> n;
+    for (int i = 0, tmp; i < n;  i++) {
+        cin >> tmp;
+        factorization(tmp, cnt_a);
+    }
+    cin >> m;
+    for (int i = 0, tmp; i < m; i++) {
+        cin >> tmp;
+        factorization(tmp, cnt_b);
+    }
 
-	umap count_a, count_b;
-	bool divided = false;
-	lli res = 1;
-	int n_a = 0, n_b = 0;
+    lli res = 1;
+    /*
+    * 두 수에서 모두 가지고 있는 인수의 최솟값을
+    * 결과에 곱하면 그 결과는 최대공약수이다.
+    */
+    for (auto i : cnt_a) {
+        int cur = i.first;
+        
+        if (cnt_b.find(cur) != cnt_b.end()) {
+            int power = min(i.second, cnt_b[cur]);
 
-	cin >> n_a;
-	for (int i = 0, temp; i < n_a; i++) {
-		cin >> temp;
-		prime_fact(temp, count_a);
-	}
-	cin >> n_b;
-	for (int i = 0, temp; i < n_b; i++) {
-		cin >> temp;
-		prime_fact(temp, count_b);
-	}
+            for (int j = 0; j < power; j++) {
+                res *= cur;
 
-	for (umap::iterator i = count_a.begin(); i != count_a.end(); i++) {
-		int prm = (*i).first;
-		umap::iterator j = count_b.find(prm);
+                if (res >= MAX) {
+                    res %= MAX;
+                    over_max = true;
+                }
+            }
+        }
+    }
 
-		if (j != count_b.end()) {
-			int exp = min((*i).second, (*j).second);
+    /*
+    * 출력형식 맞추기
+    */
+    if (over_max) {
+        cout.width(9);
+        cout.fill('0');
+    }
+    cout << res;
 
-			while (exp > 0) {
-				res *= prm;
-				exp--;
-
-				if (res > MAX) {
-					divided = true;
-					res %= MAX;
-				}
-			}
-		}
-	}
-
-	if (divided) {
-		cout.width(9);
-		cout.fill('0');
-	}
-	cout << res;
-
-	return 0;
+    return 0;
 }
