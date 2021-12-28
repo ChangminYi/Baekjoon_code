@@ -1,5 +1,3 @@
-// 17352번: 여러분의 다리가 되어 드리겠습니다!
-
 #include <iostream>
 #include <numeric>
 
@@ -31,6 +29,10 @@ int main() {
         union_elem(n1, n2);
     }
 
+    /*
+    * union-find를 통해 집합을 구한다. 그리고 서로 다른 두 집단의
+    * 대표값을 출력하면 된다.
+    */
     for (int i = 1, f_par = 0; i <= n; i++) {
         if (parent[i] == i) {
             if (f_par == 0) {
