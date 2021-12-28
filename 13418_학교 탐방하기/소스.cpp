@@ -1,5 +1,3 @@
-// 13418번: 학교 탐방하기
-
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -47,6 +45,11 @@ int main() {
         min_pq.push(pqn(n1, n2, w));
     }
 
+    /*
+    * 각각 최대, 최소 스패닝 트리를 구축한다. 간선의 가중치는
+    * 오르막, 내리막을 표시하는 숫자를 사용한다. 트리를 완성하면
+    * 형식을 맞춰서 출력하면 된다.
+    */
     int min_up = 0, max_up = 0;
     iota(parent.begin(), parent.end(), 0);
     for (int cnt = 0; cnt < n; ) {
