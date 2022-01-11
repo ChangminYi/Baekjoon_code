@@ -3,43 +3,40 @@
 
 using namespace std;
 
-const int EVEN = 0;
-const int ODD = 1;
+int n, q, inst, arg1, arg2;
+long long seg[1200005];
 
-int n, q, inst, arg_1, arg_2;
-long long segtree[2][1200005];
-
-void update_seg(int offset, int idx, int lo, int hi, int val_idx, int new_val) {
+void update_seg(int idx, int lo, int hi, int val_idx, int val) {
     if (lo == hi) {
-        segtree[offset][idx] += new_val;
+        seg[idx] += val;
     }
     else {
         int mid = (lo + hi) / 2;
         if (val_idx <= mid) {
-            update_seg(offset, 2 * idx, lo, mid, val_idx, new_val);
+            update_seg(2 * idx, lo, mid, val_idx, val);
         }
         else {
-            update_seg(offset, 2 * idx + 1, mid + 1, hi, val_idx, new_val);
+            update_seg(2 * idx + 1, mid + 1, hi, val_idx, val);
         }
-        segtree[offset][idx] = segtree[offset][2 * idx] + segtree[offset][2 * idx + 1];
+        seg[idx] = seg[2 * idx] + seg[2 * idx + 1];
     }
 }
 
-long long get_query(int offset, int idx, int lo, int hi, int left, int right) {
+long long get_query(int idx, int lo, int hi, int left, int right) {
     if (lo == left && hi == right) {
-        return segtree[offset][idx];
+        return seg[idx];
     }
     else {
         int mid = (lo + hi) / 2;
         if (right <= mid) {
-            return get_query(offset, 2 * idx, lo, mid, left, right);
+            return get_query(2 * idx, lo, mid, left, right);
         }
         else if (mid < left) {
-            return get_query(offset, 2 * idx + 1, mid + 1, hi, left, right);
+            return get_query(2 * idx + 1, mid + 1, hi, left, right);
         }
         else {
-            long long res1 = get_query(offset, 2 * idx, lo, mid, left, mid);
-            long long res2 = get_query(offset, 2 * idx + 1, mid + 1, hi, mid + 1, right);
+            long long res1 = get_query(2 * idx, lo, mid, left, mid);
+            long long res2 = get_query(2 * idx + 1, mid + 1, hi, mid + 1, right);
             return res1 + res2;
         }
     }
@@ -50,26 +47,25 @@ int main() {
     cout.tie(nullptr)->sync_with_stdio(false);
 
     /*
-    * 세그먼트 트리를 두 개 생성. 하나는 짝수 순서만 저장, 다른 하나는 홀수 순서만 저장.
-    * 쿼리에서 물어보는 것은 두 줄의 카리스마 값 차이이므로, 좌우는 구분하지 않아도 된다.
-    * 주어진 구간에서의 좌측 합과 우측 합을 각각 구하여, 그 차이를 출력하면 된다.
+    * 좌측 줄의 합과 우측 줄의 합의 차잇값을 구하면 되므로,
+    * 짝수 인덱스에는 양수, 음수 인덱스에는 음수로 값을 저장하여
+    * 좌측 우측을 구분한다. 값 최신화 할 때도 인덱스를 구분하여 업데이트한다.
+    * 출력은 구간 합의 절댓값을 출력하면 된다.
     */
     cin >> n >> q;
     for (int i = 1, val; i <= n; i++) {
         cin >> val;
-        update_seg((i & 1 ? ODD : EVEN), 1, 1, n, i, val);
+        update_seg(1, 1, n, i, (i & 1 ? val : (-1) * val));
     }
 
     do {
-        cin >> inst >> arg_1 >> arg_2;
+        cin >> inst >> arg1 >> arg2;
 
         if (inst == 1) {
-            long long res_1 = get_query((arg_1 & 1 ? ODD : EVEN), 1, 1, n, arg_1, arg_2);
-            long long res_2 = get_query((arg_1 & 1 ? EVEN : ODD), 1, 1, n, arg_1, arg_2);
-            cout << abs(res_1 - res_2) << '\n';
+            cout << abs(get_query(1, 1, n, arg1, arg2)) << '\n';
         }
         else {
-            update_seg((arg_1 & 1 ? ODD : EVEN), 1, 1, n, arg_1, arg_2);
+            update_seg(1, 1, n, arg1, (arg1 & 1 ? arg2 : (-1) * arg2));
         }
     } while (--q);
 
