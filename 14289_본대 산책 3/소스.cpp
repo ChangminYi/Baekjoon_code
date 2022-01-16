@@ -31,9 +31,10 @@ void operator*=(vector<vector<lli>>& lhs, const vector<vector<lli>>& rhs) {
 }
 
 vector<vector<lli>> mult(const int d) {
-    vector<vector<lli>> mat(n, vector<lli>(n, 0));
+    vector<vector<lli>> mat;
 
     if (d == 0) {
+        mat = vector<vector<lli>>(n, vector<lli>(n, 0));
         for (int i = 0; i < n; i++) {
             mat[i][i] = 1;
         }
