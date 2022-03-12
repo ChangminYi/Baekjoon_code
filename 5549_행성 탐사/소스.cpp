@@ -21,7 +21,7 @@ int main() {
             cin >> tmp;
             if (tmp == 'J') row_j++;
             else if (tmp == 'O') row_o++;
-            else cnt_i[i][j] = row_i++;
+            else row_i++;
             cnt_j[i][j] = cnt_j[i - 1][j] + row_j;
             cnt_o[i][j] = cnt_o[i - 1][j] + row_o;
             cnt_i[i][j] = cnt_i[i - 1][j] + row_i;
